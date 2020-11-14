@@ -39,7 +39,8 @@ impl usb::UsbCallback for App {
 
 impl App {
     pub fn new() -> Result<Self> {
-        logging::init_logging()?;
+        // TODO: Disable logging
+        // logging::init_logging()?;
         let config = Configuration::load()?;
 
         Ok(Self { config })
