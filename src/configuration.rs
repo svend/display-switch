@@ -75,8 +75,12 @@ impl InputSources {
 }
 
 impl Configuration {
-    pub fn load() -> Result<Self> {
-        let config_file_name = Self::config_file_name()?;
+    pub fn load(config_file: Option<std::path::PathBuf>) -> Result<Self> {
+        let config_file_name = if let Some(name) = config_file {
+            name
+        } else {
+            Self::config_file_name()?
+        };
         let mut settings = config::Config::default();
         settings
             .merge(config::File::from(config_file_name.clone()))?

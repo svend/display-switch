@@ -10,13 +10,17 @@ use simplelog::*;
 
 use crate::configuration::Configuration;
 
-pub fn init_logging() -> Result<()> {
-    Ok(CombinedLogger::init(vec![
-        TermLogger::new(LevelFilter::Debug, Config::default(), TerminalMode::Mixed),
-        WriteLogger::new(
+pub fn init_logging(log_file: bool) -> Result<()> {
+    let mut loggers: Vec<Box<dyn SharedLogger>> = vec![
+        TermLogger::new(LevelFilter::Debug, Config::default(), TerminalMode::Mixed)];
+    if log_file {
+        loggers.push(WriteLogger::new(
             LevelFilter::Debug,
             Config::default(),
             File::create(Configuration::log_file_name()?)?,
-        ),
-    ])?)
+        ))
+    };
+    CombinedLogger::init(loggers)?;
+
+    Ok(())
 }

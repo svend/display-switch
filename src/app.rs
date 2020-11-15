@@ -38,9 +38,9 @@ impl usb::UsbCallback for App {
 }
 
 impl App {
-    pub fn new() -> Result<Self> {
-        logging::init_logging().context("failed to initialize logging")?;
-        let config = Configuration::load().context("failed to load configuration")?;
+    pub fn new(config_file: Option<std::path::PathBuf>, log_file: bool) -> Result<Self> {
+        logging::init_logging(log_file).context("failed to initialize logging")?;
+        let config = Configuration::load(config_file).context("failed to load configuration")?;
 
         Ok(Self { config })
     }

@@ -18,7 +18,8 @@ mod platform;
 mod usb;
 
 fn main() -> Result<()> {
-    let app = app::App::new()?;
+    let config_file = std::path::PathBuf::from(std::env::args().nth(1).unwrap());
+    let app = app::App::new(Some(config_file), false)?;
     app.run()?;
 
     Ok(())
